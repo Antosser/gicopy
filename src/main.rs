@@ -18,7 +18,11 @@ struct Args {
 
     /// The name of the file with the list of files to ignore
     #[arg(short, long, default_value = ".gitignore")]
-    ignore: String,
+    ignore_file: String,
+
+    /// Other files to ignore
+    #[arg(short, long, default_value = ".git")]
+    other_ignored: Vec<String>,
 }
 
 fn copy(
@@ -29,7 +33,7 @@ fn copy(
 ) -> Result<(), io::Error> {
     info!("Copying {:?} to {:?}", current_path, target_path);
 
-    if let Ok(ignore_file) = fs::read_to_string(current_path.join(&args.ignore)) {
+    if let Ok(ignore_file) = fs::read_to_string(current_path.join(&args.ignore_file)) {
         for line in ignore_file.lines() {
             if line.starts_with('#') {
                 continue;
@@ -49,7 +53,11 @@ fn copy(
         let entry = entry?;
         let path = entry.path();
 
-        if ignore_list.contains(&path) {
+        if ignore_list.contains(&path)
+            || args
+                .other_ignored
+                .contains(&entry.file_name().to_str().unwrap_or_default().to_string())
+        {
             log::info!("Ignoring {:?}", path);
             continue;
         }
