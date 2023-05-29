@@ -1,4 +1,5 @@
 # Git Ignore Copy (gicopy)
+Copies a directory to another location, ignoring files listed in .gitignore files
 ## Usage
 ```
 Usage: gicopy.exe [OPTIONS] <SOURCE> <TARGET>
