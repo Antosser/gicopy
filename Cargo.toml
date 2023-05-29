@@ -1,6 +1,6 @@
 [package]
 name = "gicopy"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 repository = "https://github.com/Antosser/gicopy"
 description = "Copies a directory to another location, ignoring files listed in .gitignore files"
